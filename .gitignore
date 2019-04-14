@@ -1,0 +1,34 @@
+## system
+.DS_Store
+
+## gradle
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+## nodejs
+dist/
+node_modules/
+package-lock.json
+lerna-debug.log
+
+### STS ###
+.apt_generated
+.classpath
+.factorypathg
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+
+### VS Code ###
+.vscode
+
+### dot-env
+.env
