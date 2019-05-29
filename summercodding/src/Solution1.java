@@ -1,93 +1,61 @@
-import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class Solution1 {
-    public int solution(int[] s) {
+
+    public int solution(int [] example){
         int answer = 0;
 
-        List<Integer> group = new ArrayList<>();
+        Stack<Integer> three = new Stack<>();
+        Stack<Integer> two = new Stack<>();
+        Stack<Integer> one = new Stack<>();
 
-        for (int n : s){
-            group.add(n);
-        }
 
-        Collections.sort(group);
-        Collections.reverse(group);
-
-        List<Integer> remove = new ArrayList<>();
-
-        answer = check4(answer, group, remove);
-
-        Collections.reverse(group);
-
-        for (Integer n : group) {
-            remove.add(n);
-            int sum = sum(remove);
-
-            if(sum < 4){
-                continue;
-            }else if(sum == 4){
-//                group.removeAll(remove);
-                remove.clear();
+        for (int i = 0; i < example.length; i++) {
+            int j = example[i];
+            if (j == 4){
                 answer ++;
-            }else{
-                int k = remove4(remove);
-//                group.removeAll(remove);
-                remove.clear();
-                answer ++;
-                remove.add(k);
+            }
+
+            if (j == 3 ){
+                answer = process(answer, three, one, j);
+
+            }
+
+            if (j == 2){
+                answer = process(answer, two, two, j);
+            }
+
+            if (j == 1){
+                answer = process(answer, one, three, j);
             }
         }
 
-        if(!remove.isEmpty()){
-            answer++;
+        int n = one.size() + two.size()*2 + three.size()*3;
+
+        if (n % 4 == 0){
+            answer += n/4;
+            return answer;
         }
 
-        System.out.println(answer);
+        answer += n/4 + 1;
 
         return answer;
     }
 
-    private int remove4(List<Integer> remove) {
-        int sum = sum(remove);
-
-        for (int n : remove){
-            if(sum-n == 4){
-                return n;
-            }
+    private int process(int answer, Stack<Integer> num1, Stack<Integer> num2, int j) {
+        if (num2.empty()) {
+            num1.push(j);
+            return answer;
         }
-        return remove.get(remove.size()-1);
-    }
-
-    private int check4(int answer, List<Integer> group, List remove) {
-        for (int n : group) {
-            if(n == 4){
-                remove.add(n);
-                answer ++;
-            }
-        }
-        group.removeAll(remove);
-        remove.clear();
+        num2.pop();
+        answer++;
         return answer;
     }
-
-    private int sum(List<Integer> list){
-        int sum = 0;
-        for (int n : list){
-            sum += n;
-        }
-        return sum;
-    }
-
-
 
 
     public static void main(String[] args) {
-        int[] example = {2,3,4,4,2,1,3,1};
+        int[] example = {2,3,2,3,4,1,4,2,2};
         Solution1 solution1 = new Solution1();
-        solution1.solution(example);
+        System.out.println(solution1.solution(example));
     }
 }
